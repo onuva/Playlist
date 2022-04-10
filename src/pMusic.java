@@ -221,7 +221,7 @@ public class pMusic {
 
 	public static class Music {
 		static Clip clip;
-		static float vol = 0;
+		static float vol = -10;
 		boolean started = false;
 
 		public void setFile(String soundFileName) {
@@ -258,6 +258,7 @@ public class pMusic {
 				FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 				gainControl.setValue(vol);
 			}
+			System.out.println("Volume is at " + (int)((vol+80)/86.0206 * 100) + "%");
 		}
 		public void restart() {
 			clip.setFramePosition(0);
