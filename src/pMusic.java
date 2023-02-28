@@ -20,13 +20,14 @@ public class pMusic {
 	private static ArrayList<String> list = new ArrayList<String>();
 	private static ArrayList<String> no = new ArrayList<String>();
 	private static String playMusic;
-	private String repImg, reapImg, reap2Img, rewImg, forImg, skipF, skipB, plImg, paImg;
+	private String repImg, reapImg, reap2Img, rewImg, forImg, skipF, skipB, plImg, paImg, shuffImg, unShuff;
 	private static int frame;
-	private double w, h, r, w2, h2;
+	private double w, h, r, r2, w2, h2, sw, sh, sw2, sh2;
 	public double scrollx, scrolly;
 	// ButtonHandler bH = new ButtonHandler();
 	private static Music m = new Music();
-	private static boolean fullStart = false, play = false, repeat = false, peated = false, pToggled = false, looped = false, rew = false, for2 = false, skippedF = false, skippedB = false;
+	private static boolean fullStart = false, play = false, repeat = false, peated = false, pToggled = false, 
+			looped = false, rew = false, for2 = false, skippedF = false, skippedB = false, shuffled = true, shuff = true;
 	public boolean hoverScroll = true;
 	ImageIcon iL = new ImageIcon("src/play.png"), iU = new ImageIcon("src/pause.png");
 
@@ -35,20 +36,46 @@ public class pMusic {
 		h = 50;
 		w2 = 40;
 		h2 = 40;
+		
+		sw = 25;
+		sh = 25;
+		sw2 = 20;
+		sh2 = 20;
 		r = 1.5 * w;
+		r2 = 1.25 * w2;
 		list.add("src/Owl City - New York City (Lyrics).wav");
-		list.add("src/7 years old.wav");
-		list.add("src/Maroon 5 - Memories (Lyrics).wav");
-		playMusic = list.get((int) (Math.random() * list.size()));
+		//list.add("src/7 years old.wav");
+		list.add("src/Do Or Die.wav");
+		//list.add("src/Maroon 5 - Memories (Lyrics).wav");
+		list.add("src/\"Fires of a Revolution\" Incredible Fast Piano Music (EPIC).wav");
+		//list.add("src/BadBoyHalo, CG5, Hyper Potions - MUFFIN (feat Skeppy, CaptainPuffy) (Official Music Video).wav");
+		list.add("src/CG5 - Vibrant Eyes [Dream SMP original song].wav");
+		list.add("src/Din Shagna Da (Phillauri).wav");
+		list.add("src/Dream & Alec Benjamin - Change My Clothes (Official Lyric Video).wav");
+		list.add("src/world’s smallest violin - skeppy animatic.wav");
+		//list.add("src/How To Train Your Dragon Theme | EPIC ORCHESTRAL MEDLEY V2 (Test Drive, This is Berk, & More).wav");
+		//list.add("src/Nuvole Bianche.wav");
+		list.add("src/Owl City - Fireflies (Official Video).wav");
+		
+		if (shuff) playMusic = list.get((int) (Math.random() * list.size()));
+		else playMusic = list.get(0);
+		
 		plImg = "src/play.png";
 		paImg = "src/pause.png";
-		repImg = "src/replay.png";
-		reapImg = "src/repeat.png";
-		reap2Img = "src/reap2.png";
-		rewImg = "src/rewind.png";
-		forImg = "src/for1.png";
-		skipF = "src/skipF1.png";
-		skipB = "src/skipB1.png";
+		
+		repImg = "src/replay.png"; //Replay Song
+		
+		reapImg = "src/repeat.png"; //Loop On
+		reap2Img = "src/reap2.png"; //Loop Off
+		
+		rewImg = "src/rewind.png"; //Previous Song
+		forImg = "src/for1.png"; //Next Song
+		
+		skipF = "src/skipF.png"; //Skip back
+		skipB = "src/skipB.png"; //Skip forward
+		
+		shuffImg = "src/shuffle.png"; //Shuffle Songs
+		unShuff = "src/shuffle2.png"; //Unshuffle Songs
 	}
 	
 	public double getR() {
@@ -67,41 +94,63 @@ public class pMusic {
 		scrolly = p.height*0.5f - 3*(float)h;
 		
 		
-		p.fill(0);
+		
+		p.fill(255);
+		p.textAlign(PConstants.CENTER, PConstants.CENTER);
+		p.text(playMusic.substring(4, playMusic.length()-4), p.width/2, p.height/5);
+		p.fill(50);
+		//Play Cp.fill(50);ircle
 		if (!pToggled) p.ellipse((float) (p.width / 2), (float) (0.8 * p.height), (float) r, (float) r);
 		else p.ellipse((float) (p.width / 2), (float) (0.8 * p.height), (float) (0.9 * r), (float) (0.9 * r));
 
+		//Replay Song Circle
 		if (!peated) p.ellipse((float) (p.width / 2), (float) (0.8 * p.height - (1.75 * h)), (float) r, (float) r);
-		else p.ellipse((float) (p.width / 2), (float) (0.8 * p.height - (1.75 * h)), (float) (0.9 * r),
-					(float) (0.9 * r));
+		else p.ellipse((float) (p.width / 2), (float) (0.8 * p.height - (1.75 * h)), (float) (0.9 * r), (float) (0.9 * r));
 
+		//Loop Songs Circle
 		if (!looped) p.ellipse((float) (p.width / 2), (float) (0.8 * p.height - (3.5 * h)), (float) r, (float) r);
 		else p.ellipse((float) (p.width / 2), (float) (0.8 * p.height - (3.5 * h)), (float) (0.9 * r), (float) (0.9 * r));
 		
-		if (!skippedB) p.ellipse((float) (0.25* p.width), (float) (0.8 * p.height), (float) r, (float) r);
-		else p.ellipse((float) (0.25* p.width), (float) (0.8 * p.height), (float) (0.9 * r), (float) (0.9 * r));
+		//Shuffle Songs Circle
+		if (!shuffled) p.ellipse((float) (p.width - sw*2), (float) (sh), (float) r2, (float) r2);
+		else p.ellipse((float) (p.width - sw*22), (float) (sh), (float) (0.9 * r2), (float) (0.9 * r2));
 		
-		if (!skippedF) p.ellipse((float) (0.75* p.width), (float) (0.8 * p.height), (float) r, (float) r);
-		else p.ellipse((float) (0.75* p.width), (float) (0.8 * p.height), (float) (0.9 * r), (float) (0.9 * r));
+		//Skip Backward Circle
+		if (!skippedB) p.ellipse((float) (0.25 * p.width), (float) (0.8 * p.height), (float) r, (float) r);
+		else p.ellipse((float) (0.25 * p.width), (float) (0.8 * p.height), (float) (0.9 * r), (float) (0.9 * r));
+		//Skip Forward Circle
+		if (!skippedF) p.ellipse((float) (0.75 * p.width), (float) (0.8 * p.height), (float) r, (float) r);
+		else p.ellipse((float) (0.75 * p.width), (float) (0.8 * p.height), (float) (0.9 * r), (float) (0.9 * r));
 		
 		
 
+		//Loop Songs
 		if (!looped && repeat) p.image(p.loadImage(reapImg), (float) (p.width / 2 - w / 2), (float) (0.8 * p.height - (3.5 * h) - h / 2), (float)w, (float)h);
 		else if (looped && repeat) p.image(p.loadImage(reapImg), (float) (p.width / 2 - w2 / 2), (float) (0.8 * p.height - (3.5 * h) - h2 / 2), (float)w2, (float)h2);
 		else if (!looped && !repeat) p.image(p.loadImage(reap2Img), (float) (p.width / 2 - w / 2), (float) (0.8 * p.height - (3.5 * h) - h / 2), (float)w, (float)h);
 		else  p.image(p.loadImage(reap2Img), (float) (p.width / 2 - w2 / 2), (float) (0.8 * p.height - (3.5 * h) - h2 / 2), (float)w2, (float)h2);
 		
+		//Shuffle Songs
+		p.imageMode(PConstants.CENTER);
+		if (!shuffled && shuff) p.image(p.loadImage(shuffImg), (float) (p.width - sw*2), (float) (sh), (float)sw, (float)sh);
+		else if (shuffled && shuff) p.image(p.loadImage(shuffImg), (float) (p.width - sw*2), (float) (sh), (float)sw2, (float)sh2);
+		else if (!shuffled && !shuff) p.image(p.loadImage(unShuff), (float) (p.width - sw*2), (float) (sh), (float)sw, (float)sh);
+		else  p.image(p.loadImage(unShuff), (float) (p.width - sw*2), (float) (sh), (float)sw2, (float)sh2);
+		p.imageMode(PConstants.CORNER);
+		//Play/Pause
 		if (!play && !pToggled) p.image(p.loadImage(plImg), (float) (p.width / 2 - w / 2), (float) (0.8 * p.height - h / 2), (float)w, (float)h);
 		else if (!play && pToggled) p.image(p.loadImage(plImg), (float) (p.width / 2 - w2 / 2), (float) (0.8 * p.height - h2 / 2), (float)w2, (float)h2);
 		else if (play && !pToggled) p.image(p.loadImage(paImg), (float) (p.width / 2 - w / 2), (float) (0.8 * p.height - h / 2), (float)w,(float)h);
 		else p.image(p.loadImage(paImg), (float) (p.width / 2 - w2 / 2), (float) (0.8 * p.height - h2 / 2), (float)w2, (float)h2);
 		
+		//Repeat Song
 		if (!peated) p.image(p.loadImage(repImg), (float) (p.width / 2 - w / 2), (float) (0.8 * p.height - (1.75 * h) - h / 2), (float)w, (float)h);
 		else p.image(p.loadImage(repImg), (float) (p.width / 2 - w2 / 2), (float) (0.8 * p.height - (1.75 * h) - h2 / 2), (float)w2, (float)h2);
 	
+		//Skip Backward
 		if (!skippedB) p.image(p.loadImage(skipB), (float) (p.width*0.25 - w / 2), (float) (0.8 * p.height - h / 2), (float)w, (float)h);
 		else p.image(p.loadImage(skipB), (float) (p.width*0.25 - w2 / 2), (float) (0.8 * p.height - h2 / 2), (float)w2, (float)h2);
-		
+		//Skip Forward
 		if (!skippedF) p.image(p.loadImage(skipF), (float) (p.width*0.75 - w / 2), (float) (0.8 * p.height - h / 2), (float)w, (float)h);
 		else p.image(p.loadImage(skipF), (float) (p.width*0.75 - w2 / 2), (float) (0.8 * p.height - h2 / 2), (float)w2, (float)h2);
 		
@@ -152,6 +201,15 @@ public class pMusic {
 		else repeat = true;
 	}
 	
+	public void shuffleDisplay() {
+		shuffled = true;
+	}
+	
+	public void shuffle() {
+		if (shuff) shuff = false;
+		else shuff = true;
+	}
+	
 	public void restartSongDisplay() {
 		peated = true;
 	}
@@ -192,6 +250,8 @@ public class pMusic {
 		pToggled = false;
 		
 		looped = false;
+		
+		shuffled = false;
 		
 		peated = false;
 		
@@ -261,8 +321,8 @@ public class pMusic {
 			System.out.println("Volume is at " + (int)((vol+80)/86.0206 * 100) + "%");
 		}
 		public void restart() {
-			clip.setFramePosition(0);
-			clip.start();
+			frame = 0;
+			play();
 		}
 
 		public void play() {
@@ -294,20 +354,18 @@ public class pMusic {
 			clip.close();
 		}
 
-	}
+	} //end of Music
 
-	public static void next() {
+	private static void next() {
 		no.add(list.remove(findPlace()));
 		if (!repeat && list.size() == 0) m.stop();
-		else if (repeat && list.size() == 0) {
-			for (int i = 0; i < no.size(); i++) {
-				list.add(no.remove(i));
-				i--;
-			}
-		}
+		else if (repeat && list.size() == 0) putBack();
 		if (list.size() != 0){
-			int n = (int) (Math.random() * list.size());
-			playMusic = list.get(n);
+			if (shuff) {
+				int n = (int) (Math.random() * list.size());
+				playMusic = list.get(n);
+			}
+			else playMusic = list.get(0);
 			m.setFile(playMusic);
 			m.play();
 		}
@@ -319,6 +377,49 @@ public class pMusic {
 			if (playMusic.equals(list.get(i))) return i;
 		}
 		return -1;
+	}
+	
+	private static void putBack() {
+		for (int i = 0; i < no.size(); i++) {
+			list.add(no.remove(i));
+			i--;
+		}
+	}
+	
+	
+	public boolean checkP(PApplet p, int x, int y) {
+		if (x <= p.width / 2 + r / 2 && x >= p.width / 2 - r / 2 && y <= 0.8 * p.height + r / 2
+				&& y >= 0.8 * p.height - r / 2) return true;
+		return false;
+	}
+	
+	public boolean checkLoop(PApplet p, int x, int y) {
+		if (x <= p.width / 2 + r / 2 && x >= p.width / 2 - r / 2 && y <= (0.8 * p.height - (3.5 * h)) + r / 2
+				&& y >= (0.8 * p.height - (3.5 * h)) - r / 2) return true;
+		return false;
+	}
+	
+	public boolean checkShuffle(PApplet p, int x, int y) {
+		if (x >= p.width - sw*2 && x <= p.width - sw && y <= sh*2 && y >= sh) return true;
+		return false;
+	}
+	
+	public boolean checkRestart(PApplet p, int x, int y) {
+		if (x <= p.width / 2 + r / 2 && x >= p.width / 2 - r / 2 && y <= (0.8 * p.height - (1.75 * h)) + r / 2
+				&& y >= (0.8 * p.height - (1.75 * h)) - r / 2) return true;
+		return false;
+	}
+
+	public boolean checkSF(PApplet p, int x, int y) {
+		if (x <= p.width*0.75 + r / 2 && x >= p.width*0.75 - r / 2 && y <= 0.8 * p.height + r / 2 && 
+				y >= 0.8 * p.height - r / 2) return true;
+		return false;
+	}
+
+	public boolean checkSB(PApplet p, int x, int y) {
+		if (x <= p.width*0.25 + r / 2 && x >= p.width*0.25 - r / 2 && y <= 0.8 * p.height + r / 2 && 
+				y >= 0.8 * p.height - r / 2) return true;
+		return false;
 	}
 
 }

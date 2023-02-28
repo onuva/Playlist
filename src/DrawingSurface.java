@@ -79,19 +79,22 @@ public class DrawingSurface extends PApplet {
 	
 	public void mousePressed() {
 		
+		// Play/Pause
+		if (m.checkP(this, mouseX, mouseY)) m.togglePDisplay();
 		
-		if (mouseX <= width / 2 + m.getR() / 2 && mouseX >= width / 2 - m.getR() / 2 && mouseY <= 0.8 * height + m.getR() / 2
-				&& mouseY >= 0.8 * height - m.getR() / 2) m.togglePDisplay();
+		// Loop Playlist
+		if (m.checkLoop(this, mouseX, mouseY)) m.loopPlaylistDisplay();
+
+		// Shuffle Playlist
+		if (m.checkShuffle(this, mouseX, mouseY)) m.shuffleDisplay();
 		
-		if (mouseX <= width / 2 + m.getR() / 2 && mouseX >= width / 2 - m.getR() / 2 && mouseY <= (0.8 * height - (3.5 * m.getH())) + m.getR() / 2
-				&& mouseY >= (0.8 * height - (3.5 * m.getH())) - m.getR() / 2) m.loopPlaylistDisplay();
-			
-		if (mouseX <= width / 2 + m.getR() / 2 && mouseX >= width / 2 - m.getR() / 2 && mouseY <= (0.8 * height - (1.75 * m.getH())) + m.getR() / 2
-			&& mouseY >= (0.8 * height - (1.75 * m.getH())) - m.getR() / 2) m.restartSongDisplay();
+		// Replay Song
+		if (m.checkRestart(this, mouseX, mouseY)) m.restartSongDisplay();
 		
-		if (mouseX <= width*0.75 + m.getR() / 2 && mouseX >= width*0.75 - m.getR() / 2 && mouseY <= 0.8 * height + m.getR() / 2 && mouseY >= 0.8 * height - m.getR() / 2) m.skipForwardDisplay();
-		
-		if (mouseX <= width*0.25 + m.getR() / 2 && mouseX >= width*0.25 - m.getR() / 2 && mouseY <= 0.8 * height + m.getR() / 2 && mouseY >= 0.8 * height - m.getR() / 2) m.skipBackwardDisplay();
+		// Skip Forward
+		if (m.checkSF(this, mouseX, mouseY)) m.skipForwardDisplay();
+		// Skip Backward
+		if (m.checkSB(this, mouseX, mouseY)) m.skipBackwardDisplay();
 	
 		if (m.hoverScroll == true) m.scrolling((double)mouseX/width);
 	}
@@ -100,19 +103,22 @@ public class DrawingSurface extends PApplet {
 	}
 	public void mouseReleased() {
 		
+		// Play/Pause
+		if (m.checkP(this, mouseX, mouseY)) m.toggleP();
 		
-		if (mouseX <= width / 2 + m.getR() / 2 && mouseX >= width / 2 - m.getR() / 2 && mouseY <= 0.8 * height + m.getR() / 2
-				&& mouseY >= 0.8 * height - m.getR() / 2) m.toggleP();
+		// Loop Playlist
+		else if (m.checkLoop(this, mouseX, mouseY)) m.loopPlaylist();
 		
-		else if (mouseX <= width / 2 + m.getR() / 2 && mouseX >= width / 2 - m.getR() / 2 && mouseY <= (0.8 * height - (3.5 * m.getH())) + m.getR() / 2
-				&& mouseY >= (0.8 * height - (3.5 * m.getH())) - m.getR() / 2) m.loopPlaylist();
-			
-		else if (mouseX <= width / 2 + m.getR() / 2 && mouseX >= width / 2 - m.getR() / 2 && mouseY <= (0.8 * height - (1.75 * m.getH())) + m.getR() / 2
-			&& mouseY >= (0.8 * height - (1.75 * m.getH())) - m.getR() / 2) m.restartSong();
+		// Shuffle Playlist
+		else if (m.checkShuffle(this, mouseX, mouseY)) m.shuffle();
 		
-		else if (mouseX <= width*0.75 + m.getR() / 2 && mouseX >= width*0.75 - m.getR() / 2 && mouseY <= 0.8 * height + m.getR() / 2 && mouseY >= 0.8 * height - m.getR() / 2) m.skipForward(this);
+		// Replay Song
+		else if (m.checkRestart(this, mouseX, mouseY)) m.restartSong();
 		
-		else if (mouseX <= width*0.25 + m.getR() / 2 && mouseX >= width*0.25 - m.getR() / 2 && mouseY <= 0.8 * height + m.getR() / 2 && mouseY >= 0.8 * height - m.getR() / 2) m.skipBackward(this);
+		// Skip Forward
+		else if (m.checkSF(this, mouseX, mouseY)) m.skipForward(this);
+		// Skip Backward
+		else if (m.checkSB(this, mouseX, mouseY)) m.skipBackward(this);
 	
 		m.release();
 	}
